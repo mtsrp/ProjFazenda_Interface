@@ -6,6 +6,7 @@
 package PacoteFazenda;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -253,21 +254,24 @@ public class TelaCadastro extends javax.swing.JFrame {
         
         try {
             conecta_bd con = new conecta_bd();
-            Statement st = con.conexao.createStatement();
+            
+            String sql = "INSERT INTO funcionario( `nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`, `email_func`, `nasc_func`) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = con.conexao.prepareStatement(sql);
+            ps.setString(1, txt_cadastro_nome.getText());
+            ps.setString(2, txt_cadastro_AdmiAno.getText()+"/"+ txt_cadastro_AdmiMes.getText() + "/" + txt_cadastro_AdmiDia.getText());
+            ps.setString(3, txt_usuario_cadastro.getText());
+            ps.setString(4, "P@ssw0rd");
+            ps.setString(5, "1");
+            ps.setString(6, "1");
+            ps.setString(7, txt_cadastro_email.getText());
+            ps.setString(8, txt_cadastro_NascAno.getText()+"/"+ txt_cadastro_NascMes.getText() + "/" + txt_cadastro_NascDia.getText());
             
            
             //Insert
-            st.executeUpdate("INSERT INTO funcionario(`nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`) VALUES ('Charisse','2013/12/25','mtsrp','P@ssw0rd','1','1')");
+            ps.executeUpdate();
+            //st.executeUpdate("INSERT INTO funcionarios( `NOME_FUNC`, `DTADMI_FUNC`, `USUARIO_FUNC`, `SENHA_FUNC`, `PERMISSOES_FUNC`, `ID_SETOR`, `email_func`, `nasc_func`) VALUES (?,?,?,?,?,?,?,?)");
             
             
-            //Consulta MYSQL
-            st.executeQuery("SELECT * FROM funcionario");
-            
-            ResultSet rs = st.getResultSet();
-            
-            while(rs.next()){
-                System.out.println(rs.getString("nome_func")+","+rs.getString("cod_func"));
-            }
             
             
         } catch (SQLException ex) {
