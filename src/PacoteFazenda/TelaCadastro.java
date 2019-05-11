@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +20,32 @@ import java.util.logging.Logger;
  */
 public class TelaCadastro extends javax.swing.JFrame {
 
+    public boolean checkCampos(){
+        //Vai checkar se todos os campos foram preenchidos
+        
+        return false;
+    }
+    public String checkSexo(){
+        //Olha qual opção foi selecionada
+        String sexo="";  
+            if(rdb_fem.isSelected()){
+                sexo = "F";
+            }else if(rdb_masc.isSelected()){
+                sexo = "M";
+            }
+        return sexo;
+    }
+    
+    public void setorSelect(){
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        
+    }
     /**
      * Creates new form TelaCadastro
      */
-    public TelaCadastro() {
+    public TelaCadastro(){
+ 
+        
         initComponents();
     }
 
@@ -43,7 +66,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_cadastrese = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txt_senha_cadastro = new javax.swing.JPasswordField();
-        cmb_permissao = new javax.swing.JComboBox<>();
+        cb_permissao = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         bnt_cadastro_salvar = new javax.swing.JButton();
@@ -56,7 +79,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         txt_cadastro_NascAno = new javax.swing.JTextField();
         jLabel_DataNasc1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cmb_setor = new javax.swing.JComboBox<>();
+        cb_setor = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         txt_cadastro_AdmiDia = new javax.swing.JTextField();
         jLabel_DataAdmi = new javax.swing.JLabel();
@@ -64,8 +87,8 @@ public class TelaCadastro extends javax.swing.JFrame {
         txt_cadastro_AdmiAno = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        btn_masc = new javax.swing.JRadioButton();
-        btn_fem = new javax.swing.JRadioButton();
+        rdb_masc = new javax.swing.JRadioButton();
+        rdb_fem = new javax.swing.JRadioButton();
         jLabel_cadastrese1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,13 +121,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         txt_senha_cadastro.setText("jPasswordField1");
         jPanel4.add(txt_senha_cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 250, 30));
 
-        cmb_permissao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmb_permissao.addActionListener(new java.awt.event.ActionListener() {
+        cb_permissao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_permissaoActionPerformed(evt);
+                cb_permissaoActionPerformed(evt);
             }
         });
-        jPanel4.add(cmb_permissao, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 250, -1));
+        jPanel4.add(cb_permissao, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 250, -1));
 
         jLabel4.setText("Permissão do usuário:");
         jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
@@ -188,8 +210,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel2.setText("Nome Completo:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
-        cmb_setor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cmb_setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 160, 20));
+        jPanel1.add(cb_setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 160, 20));
 
         jLabel5.setText("Setor:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
@@ -226,18 +247,18 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Sexo:"));
 
-        buttonGroup1.add(btn_masc);
-        btn_masc.setText("Masculino");
-        jPanel6.add(btn_masc);
+        buttonGroup1.add(rdb_masc);
+        rdb_masc.setText("Masculino");
+        jPanel6.add(rdb_masc);
 
-        buttonGroup1.add(btn_fem);
-        btn_fem.setText("Feminino");
-        btn_fem.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdb_fem);
+        rdb_fem.setText("Feminino");
+        rdb_fem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_femActionPerformed(evt);
+                rdb_femActionPerformed(evt);
             }
         });
-        jPanel6.add(btn_fem);
+        jPanel6.add(rdb_fem);
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 210, -1));
 
@@ -255,16 +276,19 @@ public class TelaCadastro extends javax.swing.JFrame {
         try {
             conecta_bd con = new conecta_bd();
             
-            String sql = "INSERT INTO funcionario( `nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`, `email_func`, `nasc_func`) VALUES (?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO funcionario( `nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`, `email_func`, `nasc_func`, `sexo_func`) VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.conexao.prepareStatement(sql);
             ps.setString(1, txt_cadastro_nome.getText());
             ps.setString(2, txt_cadastro_AdmiAno.getText()+"/"+ txt_cadastro_AdmiMes.getText() + "/" + txt_cadastro_AdmiDia.getText());
             ps.setString(3, txt_usuario_cadastro.getText());
-            ps.setString(4, "P@ssw0rd");
+            ps.setString(4, String.valueOf(txt_senha_cadastro.getPassword()));
             ps.setString(5, "1");
             ps.setString(6, "1");
             ps.setString(7, txt_cadastro_email.getText());
             ps.setString(8, txt_cadastro_NascAno.getText()+"/"+ txt_cadastro_NascMes.getText() + "/" + txt_cadastro_NascDia.getText());
+            ps.setString(9, checkSexo());
+            
+            
             
            
             //Insert
@@ -291,13 +315,13 @@ public class TelaCadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_cadastro_sairActionPerformed
 
-    private void cmb_permissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_permissaoActionPerformed
+    private void cb_permissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_permissaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmb_permissaoActionPerformed
+    }//GEN-LAST:event_cb_permissaoActionPerformed
 
-    private void btn_femActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_femActionPerformed
+    private void rdb_femActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_femActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_femActionPerformed
+    }//GEN-LAST:event_rdb_femActionPerformed
 
     private void txt_cadastro_AdmiAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cadastro_AdmiAnoActionPerformed
         // TODO add your handling code here:
@@ -346,11 +370,9 @@ public class TelaCadastro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnt_cadastro_salvar;
     private javax.swing.JButton btn_cadastro_sair;
-    private javax.swing.JRadioButton btn_fem;
-    private javax.swing.JRadioButton btn_masc;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cmb_permissao;
-    private javax.swing.JComboBox<String> cmb_setor;
+    private javax.swing.JComboBox<Object> cb_permissao;
+    private javax.swing.JComboBox<Object> cb_setor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -366,14 +388,16 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField txt_cadastro_AdmiAno;
-    private javax.swing.JTextField txt_cadastro_AdmiDia;
-    private javax.swing.JTextField txt_cadastro_AdmiMes;
-    private javax.swing.JTextField txt_cadastro_NascAno;
-    private javax.swing.JTextField txt_cadastro_NascDia;
-    private javax.swing.JTextField txt_cadastro_NascMes;
-    private javax.swing.JTextField txt_cadastro_email;
-    private javax.swing.JTextField txt_cadastro_nome;
+    private javax.swing.JRadioButton rdb_fem;
+    private javax.swing.JRadioButton rdb_masc;
+    javax.swing.JTextField txt_cadastro_AdmiAno;
+    javax.swing.JTextField txt_cadastro_AdmiDia;
+    javax.swing.JTextField txt_cadastro_AdmiMes;
+    javax.swing.JTextField txt_cadastro_NascAno;
+    javax.swing.JTextField txt_cadastro_NascDia;
+    javax.swing.JTextField txt_cadastro_NascMes;
+    javax.swing.JTextField txt_cadastro_email;
+    javax.swing.JTextField txt_cadastro_nome;
     private javax.swing.JPasswordField txt_senha_cadastro;
     private javax.swing.JTextField txt_usuario_cadastro;
     // End of variables declaration//GEN-END:variables

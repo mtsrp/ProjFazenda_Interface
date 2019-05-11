@@ -1,6 +1,4 @@
 
---COLOQUEI AS CHAVES PRIMARIAS COMO AUTO INCREMENT MAS NÃO FIZ O SCRIPT <----------------------
-
 ALTER TABLE funcionario
 ADD email_func	VARCHAR(60)	NOT NULL;
 
@@ -9,3 +7,6 @@ ADD nasc_func	DATE		NOT NULL;
 
 ALTER TABLE funcionario
 ADD sexo_func	VARCHAR(1)	NOT NULL;
+
+
+ALTER TABLE funcionario CHANGE senha_func senha_func VARCHAR(20)
