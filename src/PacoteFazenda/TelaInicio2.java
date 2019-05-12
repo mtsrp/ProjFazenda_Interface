@@ -1,3 +1,7 @@
+package PacoteFazenda;
+
+
+
 
 import javax.swing.JFrame;
 
@@ -35,16 +39,13 @@ public class TelaInicio2 extends javax.swing.JFrame {
         Imagem_Inicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 450));
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_usuario.setText("Digite o seu Usuário");
-        getContentPane().add(txt_usuario);
-        txt_usuario.setBounds(170, 300, 433, 34);
+        getContentPane().add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 433, 34));
 
         txt_login_senha.setText("Digite a sua senha");
-        getContentPane().add(txt_login_senha);
-        txt_login_senha.setBounds(170, 350, 433, 34);
+        getContentPane().add(txt_login_senha, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 433, 34));
 
         btn_login_entrar.setText("Entrar");
         btn_login_entrar.addActionListener(new java.awt.event.ActionListener() {
@@ -52,8 +53,7 @@ public class TelaInicio2 extends javax.swing.JFrame {
                 btn_login_entrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_login_entrar);
-        btn_login_entrar.setBounds(620, 360, 70, 23);
+        getContentPane().add(btn_login_entrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 360, 70, -1));
 
         btn_login_cadastro.setText("Cadastre-se");
         btn_login_cadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -61,12 +61,10 @@ public class TelaInicio2 extends javax.swing.JFrame {
                 btn_login_cadastroActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_login_cadastro);
-        btn_login_cadastro.setBounds(10, 420, 120, 23);
+        getContentPane().add(btn_login_cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 120, -1));
 
         Imagem_Inicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Redimensionado.png"))); // NOI18N
-        getContentPane().add(Imagem_Inicio);
-        Imagem_Inicio.setBounds(0, 0, 800, 450);
+        getContentPane().add(Imagem_Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

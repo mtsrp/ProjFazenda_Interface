@@ -27,21 +27,50 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        btn_consultar_ocorr = new javax.swing.JButton();
+        btn_criar_ocorr = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         btn_plantação = new javax.swing.JButton();
         btn_Celeiro = new javax.swing.JButton();
-        btn_criar_ocorr = new javax.swing.JButton();
-        btn_consultar_ocorr = new javax.swing.JButton();
-        Imagem_Celeiro = new javax.swing.JLabel();
-        Imagem_Plantação = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btn_consultar_ocorr.setText("Consultar status");
+        btn_consultar_ocorr.setToolTipText("");
+        jPanel2.add(btn_consultar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 130, 40));
+
+        btn_criar_ocorr.setText("Criar Nova");
+        jPanel2.add(btn_criar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 130, 40));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel3.setText("Ocorrências");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 120, 60));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Tela Cadastro.png"))); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 180, 170));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 240, 450));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         btn_plantação.setText("Plantação");
         btn_plantação.setMaximumSize(new java.awt.Dimension(80, 25));
         btn_plantação.setMinimumSize(new java.awt.Dimension(80, 25));
-        getContentPane().add(btn_plantação, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 103, 33));
+        jPanel1.add(btn_plantação, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 103, 33));
 
         btn_Celeiro.setText("Celeiro");
         btn_Celeiro.setMaximumSize(new java.awt.Dimension(80, 25));
@@ -51,25 +80,26 @@ public class TelaInicial extends javax.swing.JFrame {
                 btn_CeleiroActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Celeiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 100, 30));
+        jPanel1.add(btn_Celeiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 100, 30));
 
-        btn_criar_ocorr.setText("Criar Nova");
-        getContentPane().add(btn_criar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 130, 40));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Celeiro.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 220));
 
-        btn_consultar_ocorr.setText("Consultar status");
-        btn_consultar_ocorr.setToolTipText("");
-        getContentPane().add(btn_consultar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, 130, 40));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Plantação.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 250, 220));
 
-        Imagem_Celeiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Celeiro.png"))); // NOI18N
-        Imagem_Celeiro.setText("jLabel2");
-        getContentPane().add(Imagem_Celeiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 250, -1));
+        jPanel3.setBackground(new java.awt.Color(226, 245, 250));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Imagem_Plantação.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Plantação.png"))); // NOI18N
-        Imagem_Plantação.setText("jLabel3");
-        getContentPane().add(Imagem_Plantação, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 260, 250));
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel5.setText("Setores da Fazenda");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 180, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Tela Iniciar.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 450));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 540, 430));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -91,12 +121,17 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Imagem_Celeiro;
-    private javax.swing.JLabel Imagem_Plantação;
     private javax.swing.JButton btn_Celeiro;
     private javax.swing.JButton btn_consultar_ocorr;
     private javax.swing.JButton btn_criar_ocorr;
     private javax.swing.JButton btn_plantação;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

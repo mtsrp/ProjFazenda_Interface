@@ -63,7 +63,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         txt_usuario_cadastro = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel_cadastrese = new javax.swing.JLabel();
+        jLabel_dadosacesso = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txt_senha_cadastro = new javax.swing.JPasswordField();
         cb_permissao = new javax.swing.JComboBox<>();
@@ -85,7 +85,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_DataAdmi = new javax.swing.JLabel();
         txt_cadastro_AdmiMes = new javax.swing.JTextField();
         txt_cadastro_AdmiAno = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel_Email = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         rdb_masc = new javax.swing.JRadioButton();
         rdb_fem = new javax.swing.JRadioButton();
@@ -111,9 +111,9 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel1.setText("Usuário:");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
-        jLabel_cadastrese.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel_cadastrese.setText("DADOS DE ACESSO");
-        jPanel4.add(jLabel_cadastrese, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 180, 30));
+        jLabel_dadosacesso.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel_dadosacesso.setText("DADOS DE ACESSO");
+        jPanel4.add(jLabel_dadosacesso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 180, 30));
 
         jLabel3.setText("Senha:");
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
@@ -159,6 +159,7 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 290, 80));
 
+        jPanel1.setBackground(new java.awt.Color(226, 245, 250));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -207,13 +208,13 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_DataNasc1.setText("Data de nascimento:");
         jPanel1.add(jLabel_DataNasc1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jLabel2.setText("Nome Completo:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        JLabel_Nome.setText("Nome Completo:");
+        jPanel1.add(JLabel_Nome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
         jPanel1.add(cb_setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 160, 20));
 
-        jLabel5.setText("Setor:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
+        jLabel_Setor.setText("Setor:");
+        jPanel1.add(jLabel_Setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
 
         txt_cadastro_AdmiDia.setText("    Dia");
         txt_cadastro_AdmiDia.addActionListener(new java.awt.event.ActionListener() {
@@ -242,8 +243,8 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_AdmiAno, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 50, 34));
 
-        jLabel6.setText("E-mail:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
+        jLabel_Email.setText("E-mail:");
+        jPanel1.add(jLabel_Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Sexo:"));
 
@@ -262,9 +263,9 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 210, -1));
 
-        jLabel_cadastrese1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel_cadastrese1.setText("CADASTRO DE FUNCIONÁRIO");
-        jPanel1.add(jLabel_cadastrese1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 270, 30));
+        jLabel_cadastrese.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel_cadastrese.setText("CADASTRO DE FUNCIONÁRIO");
+        jPanel1.add(jLabel_cadastrese, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 270, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 430));
 
@@ -304,6 +305,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         
         
       
+        
       
     }//GEN-LAST:event_bnt_cadastro_salvarActionPerformed
 
@@ -368,21 +370,21 @@ public class TelaCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLabel_Nome;
     private javax.swing.JButton bnt_cadastro_salvar;
     private javax.swing.JButton btn_cadastro_sair;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Object> cb_permissao;
     private javax.swing.JComboBox<Object> cb_setor;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel_DataAdmi;
     private javax.swing.JLabel jLabel_DataNasc1;
+    private javax.swing.JLabel jLabel_Email;
+    private javax.swing.JLabel jLabel_Setor;
     private javax.swing.JLabel jLabel_cadastrese;
-    private javax.swing.JLabel jLabel_cadastrese1;
+    private javax.swing.JLabel jLabel_dadosacesso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
