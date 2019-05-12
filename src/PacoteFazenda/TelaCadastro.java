@@ -458,6 +458,9 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     private void btn_cadastro_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastro_sairActionPerformed
         // TODO add your handling code here:
+        TelaInicial inic = new TelaInicial();
+        inic.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_cadastro_sairActionPerformed
 
     private void cb_permissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_permissaoActionPerformed

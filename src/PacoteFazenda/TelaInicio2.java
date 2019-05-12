@@ -3,7 +3,14 @@ package PacoteFazenda;
 
 
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,6 +23,29 @@ import javax.swing.JFrame;
  */
 public class TelaInicio2 extends javax.swing.JFrame {
 
+    public boolean verificaLogin(){
+        boolean permis = false;
+        try {
+            conecta_bd con = new conecta_bd();
+            String sql = "SELECT usuario_func, senha_func, cod_permis FROM funcionario WHERE usuario_func = ? and senha_func = ?";
+            PreparedStatement ps = con.conexao.prepareStatement(sql);
+            ps.setString(1, txt_usuario.getText());
+            ps.setString(2, String.valueOf(txt_senha_login.getPassword()));
+            
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            if(rs.next()){
+                System.setProperty("Permissao_user", rs.getString("cod_permis"));
+                System.setProperty("Nome_user", rs.getString("usuario_func"));
+                permis = true;
+            }
+            con.conexao.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return permis;
+    }
     /**
      * Creates new form TelaInicio2
      */
@@ -32,20 +62,28 @@ public class TelaInicio2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         txt_usuario = new javax.swing.JTextField();
-        txt_login_senha = new javax.swing.JTextField();
+        txt_senha_login = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         btn_login_entrar = new javax.swing.JToggleButton();
-        btn_login_cadastro = new javax.swing.JToggleButton();
+        btn_logar_usuario = new javax.swing.JButton();
         Imagem_Inicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txt_usuario.setText("Digite o seu Usuário");
-        getContentPane().add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 433, 34));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 290, 30));
+        jPanel1.add(txt_senha_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 290, 30));
 
-        txt_login_senha.setText("Digite a sua senha");
-        getContentPane().add(txt_login_senha, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 433, 34));
+        jLabel1.setText("Usuário:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jLabel2.setText("Senha:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
 
         btn_login_entrar.setText("Entrar");
         btn_login_entrar.addActionListener(new java.awt.event.ActionListener() {
@@ -53,15 +91,17 @@ public class TelaInicio2 extends javax.swing.JFrame {
                 btn_login_entrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_login_entrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 360, 70, -1));
+        jPanel1.add(btn_login_entrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 400, 70, -1));
 
-        btn_login_cadastro.setText("Cadastre-se");
-        btn_login_cadastro.addActionListener(new java.awt.event.ActionListener() {
+        btn_logar_usuario.setText("Entrar");
+        btn_logar_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_login_cadastroActionPerformed(evt);
+                btn_logar_usuarioActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_login_cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 120, -1));
+        jPanel1.add(btn_logar_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 290, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 330, 190));
 
         Imagem_Inicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Redimensionado.png"))); // NOI18N
         getContentPane().add(Imagem_Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 450));
@@ -73,18 +113,27 @@ public class TelaInicio2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_login_entrarActionPerformed
 
-    private void btn_login_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_login_cadastroActionPerformed
+    private void btn_logar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logar_usuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_login_cadastroActionPerformed
+        if(verificaLogin()==true){
+            switch (System.getProperty("Permissao_user")) {
+                case "1":
+                    //abre tela adiministrador
+                    JOptionPane.showMessageDialog(null, "Administrador");
+                    break;
+                default:
+                    TelaInicial telafunc = new TelaInicial();
+                    telafunc.setVisible(true);
+                    dispose();
+                    break;
+            }
+        }else JOptionPane.showMessageDialog(null, "Verifique seus dados", "Login e/ou Senha incorretos", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_btn_logar_usuarioActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-        TelaInicio2 telainicio = new TelaInicio2();
-            telainicio.setVisible(true);
-        
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -97,10 +146,17 @@ public class TelaInicio2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Imagem_Inicio;
-    private javax.swing.JToggleButton btn_login_cadastro;
+    private javax.swing.JButton btn_logar_usuario;
     private javax.swing.JToggleButton btn_login_entrar;
-    private javax.swing.JTextField txt_login_senha;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField txt_senha_login;
     javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
+    
+    
 }
+
+
 
