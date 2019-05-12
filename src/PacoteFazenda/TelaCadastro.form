@@ -109,9 +109,6 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txt_senha_cadastro">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="20" y="140" width="250" height="30"/>
@@ -278,6 +275,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascDia">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="Dia"/>
           </Properties>
           <Events>
@@ -294,6 +292,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascMes">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="M&#xea;s"/>
           </Properties>
           <Events>
@@ -310,6 +309,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascAno">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="Ano"/>
           </Properties>
           <Events>
@@ -371,6 +371,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiDia">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="Dia"/>
           </Properties>
           <Events>
@@ -397,6 +398,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiMes">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="M&#xea;s"/>
           </Properties>
           <Events>
@@ -413,6 +415,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiAno">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="toolTipText" type="java.lang.String" value="Ano"/>
           </Properties>
           <Events>

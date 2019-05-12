@@ -22,10 +22,133 @@ import javax.swing.JOptionPane;
  */
 public class TelaCadastro extends javax.swing.JFrame {
 
-    public boolean checkCampos(){
-        //Vai checkar se todos os campos foram preenchidos
+    public void cadastraNoBanco(){
+        Setor setor = (Setor) cb_setor.getSelectedItem();
+        int set_cad = setor.getCodigo_set();
         
-        return false;
+        Setor permissao = (Setor) cb_permissao.getSelectedItem();
+        int permissao_cad = permissao.getCodigo_set();
+        
+        try {
+            conecta_bd con = new conecta_bd();
+            
+            String sql = "INSERT INTO funcionario( `nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`, `email_func`, `nasc_func`, `sexo_func`) VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = con.conexao.prepareStatement(sql);
+            ps.setString(1, txt_cadastro_nome.getText());
+            ps.setString(2, txt_cadastro_AdmiAno.getText()+"/"+ txt_cadastro_AdmiMes.getText() + "/" + txt_cadastro_AdmiDia.getText());
+            ps.setString(3, txt_usuario_cadastro.getText());
+            ps.setString(4, String.valueOf(txt_senha_cadastro.getPassword()));
+            ps.setInt(5, permissao_cad);
+            ps.setInt(6, set_cad);
+            ps.setString(7, txt_cadastro_email.getText());
+            ps.setString(8, txt_cadastro_NascAno.getText()+"/"+ txt_cadastro_NascMes.getText() + "/" + txt_cadastro_NascDia.getText());
+            ps.setString(9, checkSexo());
+            //Insert
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Usuário Cadastrado com Sucesso", "CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            
+            con.conexao.close();
+            
+            TelaInicial inic = new TelaInicial();
+            inic.setVisible(true);
+            dispose();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public boolean ver_Usuario_repetido(){
+        boolean resulta = false;
+        conecta_bd con;
+        try {
+            con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT usuario_func FROM funcionario WHERE usuario_func='"+txt_usuario_cadastro.getText()+"'");
+            ResultSet rs = st.getResultSet();
+            if(rs.next()){
+                resulta = true;
+            }
+            con.conexao.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resulta;
+    }
+    public boolean checkCampos(){
+        boolean retorna = false;
+        //Vai checkar se todos os campos foram preenchidos
+        String Message="";
+        int erros=0;
+        if(txt_cadastro_nome.getText().equals("")){
+            Message = "Preencher campo Nome.";
+            erros++;
+        }
+        
+        //Chck se a data de nascimento foi preenchida corretamente
+        if(     !txt_cadastro_NascDia.getText().equals("")&&
+                !txt_cadastro_NascMes.getText().equals("")&&
+                !txt_cadastro_NascAno.getText().equals("")){
+            
+            //check se o mês está correto
+            if(Integer.parseInt(txt_cadastro_NascMes.getText())>12){
+                Message += "\nPreencher campo Data de Nascimento Corretamente.";
+                erros++;
+            }
+            
+        }else{
+            Message += "\nPreencher campo Data de Nascimento Corretamente.";
+            erros++;
+        }
+        
+        //Verifica se uma das opções de sexo foi selecionada
+        if(!rdb_fem.isSelected()&&!rdb_masc.isSelected()){
+            Message += "\nSelecione o sexo.";
+            erros++;
+        }
+        
+        //Verifica se o campo email foi preenchido
+        if(txt_cadastro_email.getText().equals("")){
+            Message += "\nDigite o E-mail.";
+            erros++;
+        }
+        
+        //Chck se a data de Admissão foi preenchida corretamente
+        if(     !txt_cadastro_AdmiDia.getText().equals("")&&
+                !txt_cadastro_AdmiMes.getText().equals("")&&
+                !txt_cadastro_AdmiAno.getText().equals("")){
+            
+            //check se o mês está correto
+            if(Integer.parseInt(txt_cadastro_AdmiMes.getText())>12){
+                Message += "\nO mês selecionado em Data de Admissão é inválido.";
+                erros++;
+            }
+            
+        }else{
+            Message += "\nPreencher campo Data de Nascimento Corretamente.";
+            erros++;
+        }
+        //Verifica se o campo Usuario foi preenchido, e se o mesmo existe no banco
+        if(!txt_usuario_cadastro.getText().equals("")){
+            if(ver_Usuario_repetido()==true){
+                Message += "\nNome de Usuário não disponível.";
+                erros++;
+            }
+            
+        }else{
+            Message += "\nPreencher campo Usuário Corretamente.";
+            erros++;
+        }
+        if(String.valueOf(txt_senha_cadastro.getPassword()).equals("")||txt_senha_cadastro.getPassword().length > 20){
+            Message += "\nPreencher campo Senha Corretamente.";
+            erros++;
+        }
+        if(erros==0){
+            retorna = true;
+        }else{
+            JOptionPane.showMessageDialog(null, Message, "Erro nos dados informados", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return retorna;
     }
     public String checkSexo(){
         //Olha qual opção foi selecionada
@@ -54,6 +177,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                 permis.setDescricao_set(rs.getString("tipo_permis"));
                 cb_permissao.addItem(permis);
             }
+            
+            con.conexao.close();
         }catch (SQLException ex) {
             Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,6 +201,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                 set.setDescricao_set(rs.getString("nome_setor"));
                 cb_setor.addItem(set);
             }
+            
+            con.conexao.close();
         }catch (SQLException ex) {
             Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,8 +286,6 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         jLabel3.setText("Senha:");
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
-
-        txt_senha_cadastro.setText("jPasswordField1");
         jPanel4.add(txt_senha_cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 250, 30));
 
         cb_permissao.addActionListener(new java.awt.event.ActionListener() {
@@ -223,6 +348,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 460, 34));
 
+        txt_cadastro_NascDia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_NascDia.setToolTipText("Dia");
         txt_cadastro_NascDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,6 +357,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_NascDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 50, 34));
 
+        txt_cadastro_NascMes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_NascMes.setToolTipText("Mês");
         txt_cadastro_NascMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,6 +366,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_NascMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 50, 34));
 
+        txt_cadastro_NascAno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_NascAno.setToolTipText("Ano");
         txt_cadastro_NascAno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,6 +386,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_Setor.setText("Setor:");
         jPanel1.add(jLabel_Setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
 
+        txt_cadastro_AdmiDia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_AdmiDia.setToolTipText("Dia");
         txt_cadastro_AdmiDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,6 +398,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_DataAdmi.setText("Data de Admissão:");
         jPanel1.add(jLabel_DataAdmi, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
+        txt_cadastro_AdmiMes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_AdmiMes.setToolTipText("Mês");
         txt_cadastro_AdmiMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,6 +407,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_AdmiMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 50, 34));
 
+        txt_cadastro_AdmiAno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cadastro_AdmiAno.setToolTipText("Ano");
         txt_cadastro_AdmiAno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,45 +446,10 @@ public class TelaCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bnt_cadastro_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_cadastro_salvarActionPerformed
-        Setor setor = (Setor) cb_setor.getSelectedItem();
-        int set_cad = setor.getCodigo_set();
         
-        Setor permissao = (Setor) cb_permissao.getSelectedItem();
-        int permissao_cad = permissao.getCodigo_set();
-        
-        try {
-            conecta_bd con = new conecta_bd();
-            
-            String sql = "INSERT INTO funcionario( `nome_func`, `dta_adm`, `usuario_func`, `senha_func`, `cod_permis`, `cod_setor`, `email_func`, `nasc_func`, `sexo_func`) VALUES (?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = con.conexao.prepareStatement(sql);
-            ps.setString(1, txt_cadastro_nome.getText());
-            ps.setString(2, txt_cadastro_AdmiAno.getText()+"/"+ txt_cadastro_AdmiMes.getText() + "/" + txt_cadastro_AdmiDia.getText());
-            ps.setString(3, txt_usuario_cadastro.getText());
-            ps.setString(4, String.valueOf(txt_senha_cadastro.getPassword()));
-            ps.setInt(5, permissao_cad);
-            ps.setInt(6, set_cad);
-            ps.setString(7, txt_cadastro_email.getText());
-            ps.setString(8, txt_cadastro_NascAno.getText()+"/"+ txt_cadastro_NascMes.getText() + "/" + txt_cadastro_NascDia.getText());
-            ps.setString(9, checkSexo());
-            
-            
-            
-           
-            //Insert
-            ps.executeUpdate();
-            //st.executeUpdate("INSERT INTO funcionarios( `NOME_FUNC`, `DTADMI_FUNC`, `USUARIO_FUNC`, `SENHA_FUNC`, `PERMISSOES_FUNC`, `ID_SETOR`, `email_func`, `nasc_func`) VALUES (?,?,?,?,?,?,?,?)");
-            
-            
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        if(checkCampos()==true){
+            cadastraNoBanco();
         }
-        
-        
-      
-        
-      
     }//GEN-LAST:event_bnt_cadastro_salvarActionPerformed
 
     private void txt_usuario_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usuario_cadastroActionPerformed
