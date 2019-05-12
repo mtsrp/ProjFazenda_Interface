@@ -5,6 +5,7 @@
  */
 package PacoteFazenda;
 
+import ClassesAbstratas.Setor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,10 +37,48 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
         return sexo;
     }
-    
+    public void permisSelect(){
+        //vai dar um select na tabela permissoes e mostrar as opções em um ComboBox
+        
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT * FROM permissao ORDER BY tipo_permis");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                ClassesAbstratas.Setor permis = new ClassesAbstratas.Setor();
+                permis.setCodigo_set(rs.getInt("cod_permis"));
+                permis.setDescricao_set(rs.getString("tipo_permis"));
+                cb_permissao.addItem(permis);
+            }
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void setorSelect(){
         //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
         
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT cod_setor, nome_setor FROM setor ORDER BY nome_setor");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                ClassesAbstratas.Setor set = new ClassesAbstratas.Setor();
+                set.setCodigo_set(rs.getInt("cod_setor"));
+                set.setDescricao_set(rs.getString("nome_setor"));
+                cb_setor.addItem(set);
+            }
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * Creates new form TelaCadastro
@@ -47,6 +87,8 @@ public class TelaCadastro extends javax.swing.JFrame {
  
         
         initComponents();
+        setorSelect();
+        permisSelect();
     }
 
     /**
@@ -78,9 +120,9 @@ public class TelaCadastro extends javax.swing.JFrame {
         txt_cadastro_NascMes = new javax.swing.JTextField();
         txt_cadastro_NascAno = new javax.swing.JTextField();
         jLabel_DataNasc1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        JLabel_Nome = new javax.swing.JLabel();
         cb_setor = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel_Setor = new javax.swing.JLabel();
         txt_cadastro_AdmiDia = new javax.swing.JTextField();
         jLabel_DataAdmi = new javax.swing.JLabel();
         txt_cadastro_AdmiMes = new javax.swing.JTextField();
@@ -89,7 +131,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         rdb_masc = new javax.swing.JRadioButton();
         rdb_fem = new javax.swing.JRadioButton();
-        jLabel_cadastrese1 = new javax.swing.JLabel();
+        jLabel_cadastrese = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -181,7 +223,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 460, 34));
 
-        txt_cadastro_NascDia.setText("    Dia");
+        txt_cadastro_NascDia.setToolTipText("Dia");
         txt_cadastro_NascDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_NascDiaActionPerformed(evt);
@@ -189,7 +231,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_NascDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 50, 34));
 
-        txt_cadastro_NascMes.setText("    Mes");
+        txt_cadastro_NascMes.setToolTipText("Mês");
         txt_cadastro_NascMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_NascMesActionPerformed(evt);
@@ -197,7 +239,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_NascMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 50, 34));
 
-        txt_cadastro_NascAno.setText("    Ano");
+        txt_cadastro_NascAno.setToolTipText("Ano");
         txt_cadastro_NascAno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_NascAnoActionPerformed(evt);
@@ -216,7 +258,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_Setor.setText("Setor:");
         jPanel1.add(jLabel_Setor, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
 
-        txt_cadastro_AdmiDia.setText("    Dia");
+        txt_cadastro_AdmiDia.setToolTipText("Dia");
         txt_cadastro_AdmiDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_AdmiDiaActionPerformed(evt);
@@ -227,7 +269,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel_DataAdmi.setText("Data de Admissão:");
         jPanel1.add(jLabel_DataAdmi, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
-        txt_cadastro_AdmiMes.setText("    Mes");
+        txt_cadastro_AdmiMes.setToolTipText("Mês");
         txt_cadastro_AdmiMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_AdmiMesActionPerformed(evt);
@@ -235,7 +277,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jPanel1.add(txt_cadastro_AdmiMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 50, 34));
 
-        txt_cadastro_AdmiAno.setText("    Ano");
+        txt_cadastro_AdmiAno.setToolTipText("Ano");
         txt_cadastro_AdmiAno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_AdmiAnoActionPerformed(evt);
@@ -273,6 +315,11 @@ public class TelaCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bnt_cadastro_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_cadastro_salvarActionPerformed
+        Setor setor = (Setor) cb_setor.getSelectedItem();
+        int set_cad = setor.getCodigo_set();
+        
+        Setor permissao = (Setor) cb_permissao.getSelectedItem();
+        int permissao_cad = permissao.getCodigo_set();
         
         try {
             conecta_bd con = new conecta_bd();
@@ -283,8 +330,8 @@ public class TelaCadastro extends javax.swing.JFrame {
             ps.setString(2, txt_cadastro_AdmiAno.getText()+"/"+ txt_cadastro_AdmiMes.getText() + "/" + txt_cadastro_AdmiDia.getText());
             ps.setString(3, txt_usuario_cadastro.getText());
             ps.setString(4, String.valueOf(txt_senha_cadastro.getPassword()));
-            ps.setString(5, "1");
-            ps.setString(6, "1");
+            ps.setInt(5, permissao_cad);
+            ps.setInt(6, set_cad);
             ps.setString(7, txt_cadastro_email.getText());
             ps.setString(8, txt_cadastro_NascAno.getText()+"/"+ txt_cadastro_NascMes.getText() + "/" + txt_cadastro_NascDia.getText());
             ps.setString(9, checkSexo());
@@ -362,6 +409,7 @@ public class TelaCadastro extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TelaCadastro().setVisible(true);

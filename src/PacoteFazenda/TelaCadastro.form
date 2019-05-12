@@ -278,7 +278,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascDia">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Dia"/>
+            <Property name="toolTipText" type="java.lang.String" value="Dia"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_NascDiaActionPerformed"/>
@@ -294,7 +294,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascMes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Mes"/>
+            <Property name="toolTipText" type="java.lang.String" value="M&#xea;s"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_NascMesActionPerformed"/>
@@ -310,7 +310,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_NascAno">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Ano"/>
+            <Property name="toolTipText" type="java.lang.String" value="Ano"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_NascAnoActionPerformed"/>
@@ -371,7 +371,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiDia">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Dia"/>
+            <Property name="toolTipText" type="java.lang.String" value="Dia"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_AdmiDiaActionPerformed"/>
@@ -397,7 +397,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiMes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Mes"/>
+            <Property name="toolTipText" type="java.lang.String" value="M&#xea;s"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_AdmiMesActionPerformed"/>
@@ -413,7 +413,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cadastro_AdmiAno">
           <Properties>
-            <Property name="text" type="java.lang.String" value="    Ano"/>
+            <Property name="toolTipText" type="java.lang.String" value="Ano"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_cadastro_AdmiAnoActionPerformed"/>
