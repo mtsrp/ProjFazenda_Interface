@@ -12,6 +12,7 @@ package ClassesAbstratas;
 public class Setor {
     private int codigo_set;
     private String Descricao_set;
+    private String Campo_extra;
 
     public int getCodigo_set() {
         return codigo_set;
@@ -27,6 +28,14 @@ public class Setor {
 
     public void setDescricao_set(String Descricao_set) {
         this.Descricao_set = Descricao_set;
+    }
+
+    public String getCampo_extra() {
+        return Campo_extra;
+    }
+
+    public void setCampo_extra(String Campo_extra) {
+        this.Campo_extra = Campo_extra;
     }
     
     

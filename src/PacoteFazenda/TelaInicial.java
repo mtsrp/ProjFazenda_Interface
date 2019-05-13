@@ -5,19 +5,101 @@
  */
 package PacoteFazenda;
 
+import ClassesAbstratas.Setor;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author wesll
  */
 public class TelaInicial extends javax.swing.JFrame {
 
+    public void SelectSetores(){
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT cod_setor, nome_setor FROM setor ORDER BY nome_setor");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                Setor set = new Setor();
+                set.setCodigo_set(rs.getInt("cod_setor"));
+                set.setDescricao_set(rs.getString("nome_setor"));
+                cb_outros_setores.addItem(set);
+            }
+            
+            con.conexao.close();
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List <Setor> TarefasRead(){
+        //vai dar um select na tabela tarefas e mostrar as opções em um Table
+        List <Setor> tarefas = new ArrayList<>();
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT cod_tarefa, cod_setor, titulo_tarefa, data_tarefa FROM tarefa ORDER BY data_tarefa");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                Setor tar = new Setor();
+                tar.setCodigo_set(Integer.parseInt(rs.getString("cod_setor")+rs.getString("cod_tarefa")));
+                tar.setDescricao_set(rs.getString("titulo_tarefa"));
+                tar.setCampo_extra(rs.getString("data_tarefa"));
+                tarefas.add(tar);
+            }
+            
+            con.conexao.close();
+            rs.close();
+            st.close();
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tarefas;
+    }
     /**
      * Creates new form TelaInicial
      */
     public TelaInicial() {
         initComponents();
+        SelectSetores();
+        
+        DefaultTableModel modelo = (DefaultTableModel) table_tarefas_setor.getModel();
+        table_tarefas_setor.setRowSorter(new TableRowSorter(modelo));
+        
+        readJtable();
     }
 
+    
+    public void readJtable(){
+        DefaultTableModel modelo = (DefaultTableModel) table_tarefas_setor.getModel();
+        
+        for(Setor p: TarefasRead()){
+            modelo.addRow(new Object[]{
+                p.getCodigo_set(),
+                p.getDescricao_set(),
+                p.getCampo_extra()
+            });
+        }
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,13 +114,18 @@ public class TelaInicial extends javax.swing.JFrame {
         btn_criar_ocorr = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        btn_plantação = new javax.swing.JButton();
-        btn_Celeiro = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        panel_outrosSetores = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        cb_outros_setores = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txt_meu_setor = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_tarefas_setor = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -63,50 +150,159 @@ public class TelaInicial extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 240, 450));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btn_plantação.setText("Plantação");
-        btn_plantação.setMaximumSize(new java.awt.Dimension(80, 25));
-        btn_plantação.setMinimumSize(new java.awt.Dimension(80, 25));
-        jPanel1.add(btn_plantação, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 103, 33));
-
-        btn_Celeiro.setText("Celeiro");
-        btn_Celeiro.setMaximumSize(new java.awt.Dimension(80, 25));
-        btn_Celeiro.setMinimumSize(new java.awt.Dimension(80, 25));
-        btn_Celeiro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CeleiroActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Celeiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 100, 30));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Celeiro.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 220));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Plantação.png"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 250, 220));
-
         jPanel3.setBackground(new java.awt.Color(226, 245, 250));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel5.setText("Setores da Fazenda");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 180, 40));
+        panel_outrosSetores.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 540, 430));
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel5.setText("Outros Setores:");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
+        cb_outros_setores.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cb_outros_setores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_outros_setoresActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("►");
+        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout panel_outrosSetoresLayout = new javax.swing.GroupLayout(panel_outrosSetores);
+        panel_outrosSetores.setLayout(panel_outrosSetoresLayout);
+        panel_outrosSetoresLayout.setHorizontalGroup(
+            panel_outrosSetoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_outrosSetoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_outros_setores, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panel_outrosSetoresLayout.setVerticalGroup(
+            panel_outrosSetoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_outrosSetoresLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(panel_outrosSetoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_outros_setores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel1.setText("Seu Setor:");
+
+        txt_meu_setor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txt_meu_setor.setText("Meu Setor");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_meu_setor, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_meu_setor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel1.setBackground(new java.awt.Color(226, 245, 250));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("Tarefas");
+
+        table_tarefas_setor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Tarefa", "Data"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_tarefas_setor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(table_tarefas_setor);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panel_outrosSetores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(21, 21, 21))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panel_outrosSetores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_CeleiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CeleiroActionPerformed
+    private void cb_outros_setoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_outros_setoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_CeleiroActionPerformed
+    }//GEN-LAST:event_cb_outros_setoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,10 +317,10 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Celeiro;
     private javax.swing.JButton btn_consultar_ocorr;
     private javax.swing.JButton btn_criar_ocorr;
-    private javax.swing.JButton btn_plantação;
+    private javax.swing.JComboBox<Object> cb_outros_setores;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -133,5 +329,10 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panel_outrosSetores;
+    private javax.swing.JTable table_tarefas_setor;
+    private javax.swing.JLabel txt_meu_setor;
     // End of variables declaration//GEN-END:variables
 }
