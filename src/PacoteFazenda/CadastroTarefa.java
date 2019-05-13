@@ -468,6 +468,7 @@ public class CadastroTarefa extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(checkCampos()==true){
             cadastraTarefa();
+            
         }
     }//GEN-LAST:event_btn_SalvarTarefaActionPerformed
 

@@ -27,7 +27,7 @@ public class TelaInicio2 extends javax.swing.JFrame {
         boolean permis = false;
         try {
             conecta_bd con = new conecta_bd();
-            String sql = "SELECT usuario_func, senha_func, cod_permis FROM funcionario WHERE usuario_func = ? and senha_func = ?";
+            String sql = "SELECT usuario_func, senha_func, cod_permis, cod_setor FROM funcionario WHERE usuario_func = ? and senha_func = ?";
             PreparedStatement ps = con.conexao.prepareStatement(sql);
             ps.setString(1, txt_usuario.getText());
             ps.setString(2, String.valueOf(txt_senha_login.getPassword()));
@@ -37,6 +37,7 @@ public class TelaInicio2 extends javax.swing.JFrame {
             if(rs.next()){
                 System.setProperty("Permissao_user", rs.getString("cod_permis"));
                 System.setProperty("Nome_user", rs.getString("usuario_func"));
+                System.setProperty("Setor_user", rs.getString("cod_setor"));
                 permis = true;
             }
             con.conexao.close();

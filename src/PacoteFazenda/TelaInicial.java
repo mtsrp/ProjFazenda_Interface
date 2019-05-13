@@ -25,7 +25,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
     public void SelectSetores(){
         //vai dar um select na tabela setor e mostrar as opções em um ComboBox
-        
+        int setoruse = Integer.parseInt(System.getProperty("Setor_user"));
         //Consulta MYSQL
         try{
             conecta_bd con = new conecta_bd();
@@ -39,6 +39,9 @@ public class TelaInicial extends javax.swing.JFrame {
                 set.setCodigo_set(rs.getInt("cod_setor"));
                 set.setDescricao_set(rs.getString("nome_setor"));
                 cb_outros_setores.addItem(set);
+                if(set.getCodigo_set()==setoruse){
+                    txt_meu_setor.setText(set.getDescricao_set());
+                }
             }
             
             con.conexao.close();
@@ -83,7 +86,6 @@ public class TelaInicial extends javax.swing.JFrame {
         
         DefaultTableModel modelo = (DefaultTableModel) table_tarefas_setor.getModel();
         table_tarefas_setor.setRowSorter(new TableRowSorter(modelo));
-        
         readJtable();
     }
 
@@ -126,27 +128,66 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_tarefas_setor = new javax.swing.JTable();
+        btn_alterar_tarefa = new javax.swing.JButton();
+        btn_nova_tarefa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_consultar_ocorr.setText("Consultar status");
+        btn_consultar_ocorr.setText("Consultar");
         btn_consultar_ocorr.setToolTipText("");
-        jPanel2.add(btn_consultar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 130, 40));
+        btn_consultar_ocorr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consultar_ocorrActionPerformed(evt);
+            }
+        });
 
         btn_criar_ocorr.setText("Criar Nova");
-        jPanel2.add(btn_criar_ocorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 130, 40));
+        btn_criar_ocorr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_criar_ocorrActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setText("Ocorrências");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 120, 60));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PacoteFazenda/Tela Cadastro.png"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 180, 170));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_consultar_ocorr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_criar_ocorr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(10, 10, 10)))
+                .addGap(47, 47, 47))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_criar_ocorr, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_consultar_ocorr, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(143, 143, 143)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 240, 450));
 
@@ -245,6 +286,20 @@ public class TelaInicial extends javax.swing.JFrame {
         table_tarefas_setor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(table_tarefas_setor);
 
+        btn_alterar_tarefa.setText("Alterar");
+        btn_alterar_tarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_alterar_tarefaActionPerformed(evt);
+            }
+        });
+
+        btn_nova_tarefa.setText("Nova Tarefa");
+        btn_nova_tarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nova_tarefaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -255,7 +310,11 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_nova_tarefa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_alterar_tarefa)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -264,8 +323,12 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_alterar_tarefa)
+                    .addComponent(btn_nova_tarefa))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -289,10 +352,10 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panel_outrosSetores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
@@ -303,6 +366,28 @@ public class TelaInicial extends javax.swing.JFrame {
     private void cb_outros_setoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_outros_setoresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_outros_setoresActionPerformed
+
+    private void btn_consultar_ocorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultar_ocorrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_consultar_ocorrActionPerformed
+
+    private void btn_alterar_tarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_alterar_tarefaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_alterar_tarefaActionPerformed
+
+    private void btn_nova_tarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nova_tarefaActionPerformed
+        // TODO add your handling code here:
+        CadastroTarefa ntar = new CadastroTarefa();
+        ntar.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_nova_tarefaActionPerformed
+
+    private void btn_criar_ocorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_criar_ocorrActionPerformed
+        // TODO add your handling code here:
+        CadastroOcorrencia cadoc = new CadastroOcorrencia();
+        cadoc.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_criar_ocorrActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,8 +402,10 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_alterar_tarefa;
     private javax.swing.JButton btn_consultar_ocorr;
     private javax.swing.JButton btn_criar_ocorr;
+    private javax.swing.JButton btn_nova_tarefa;
     private javax.swing.JComboBox<Object> cb_outros_setores;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

@@ -5,17 +5,150 @@
  */
 package PacoteFazenda;
 
+import ClassesAbstratas.Setor;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author wesll
  */
 public class CadastroOcorrencia extends javax.swing.JFrame {
+    
+    public void statusSelect(){
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT cod_status, tipo_status FROM tb_status");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                ClassesAbstratas.Setor set = new ClassesAbstratas.Setor();
+                set.setCodigo_set(rs.getInt("cod_status"));
+                set.setDescricao_set(rs.getString("tipo_status"));
+                cmb_status_ocor.addItem(set);
+            }
+            
+            con.conexao.close();
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
+    public void cadastraOcor(){
+        Setor setor = (Setor) cmb_setorOcorr.getSelectedItem();
+        int setor_cod= setor.getCodigo_set();
+        
+        Setor status = (Setor) cmb_status_ocor.getSelectedItem();
+        int status_cad = status.getCodigo_set();
+        
+        try {
+            conecta_bd con = new conecta_bd();
+            
+            String sql = "INSERT INTO ocorrencia(`cod_setor`, `titulo_ocor`, `desc_ocor`, `data_ocor`, `cod_status`) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = con.conexao.prepareStatement(sql);
+            ps.setInt(1, setor_cod);
+            ps.setString(2, txt_tituloOcorr.getText());
+            ps.setString(3, txt_descOcorr.getText());
+            ps.setString(4, txt_cadastro_OcorreAno1.getText()+"/"+ txt_cadastro_OcorreMes2.getText() + "/" + txt_cadastro_OcorreDia2.getText());
+            ps.setInt(5, status_cad);
+            
+            //Insert
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Ocorrência Cadastrada com Sucesso!", "CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            
+            con.conexao.close();
+            
+            TelaInicial inic = new TelaInicial();
+            inic.setVisible(true);
+            dispose();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public boolean checkCampos(){
+        boolean retorna = false;
+        //Vai checkar se todos os campos foram preenchidos
+        String Message="";
+        int erros=0;
+        if(txt_tituloOcorr.getText().equals("")){
+            Message = "Preencher o titulo.";
+            erros++;
+        }
+        
+        //Chck se a data de nascimento foi preenchida corretamente
+        if(     !txt_cadastro_OcorreDia2.getText().equals("")&&
+                !txt_cadastro_OcorreMes2.getText().equals("")&&
+                !txt_cadastro_OcorreAno1.getText().equals("")){
+            
+            //check se o mês está correto
+            if(Integer.parseInt(txt_cadastro_OcorreMes2.getText())>12){
+                Message += "\nMês informado não é valido.";
+                erros++;
+            }
+            
+        }else{
+            Message += "\nPreencher campo Data da Tarefa Corretamente.";
+            erros++;
+        }
+        
+        
+        //Verifica se o campo email foi preenchido
+        if(txt_descOcorr.getText().equals("")){
+            Message += "\nDigite uma descrição.";
+            erros++;
+        }
+        
+        if(erros==0){
+            retorna = true;
+        }else{
+            JOptionPane.showMessageDialog(null, Message, "Erro nos dados informados", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return retorna;
+    }
+    
+    public void SelectSetores(){
+        //vai dar um select na tabela setor e mostrar as opções em um ComboBox
+        
+        //Consulta MYSQL
+        try{
+            conecta_bd con = new conecta_bd();
+            Statement st = con.conexao.createStatement();
+            st.executeQuery("SELECT cod_setor, nome_setor FROM setor ORDER BY nome_setor");
+            
+            ResultSet rs = st.getResultSet();
+            
+            while(rs.next()){
+                Setor set = new Setor();
+                set.setCodigo_set(rs.getInt("cod_setor"));
+                set.setDescricao_set(rs.getString("nome_setor"));
+                cmb_setorOcorr.addItem(set);
+            }
+            
+            con.conexao.close();
+        }catch (SQLException ex) {
+            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Creates new form CadastroOcorrencia
      */
     public CadastroOcorrencia() {
         initComponents();
+        SelectSetores();
+        statusSelect();
     }
 
     /**
@@ -38,14 +171,16 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         txt_cadastro_OcorreAno1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txt_tituloOcorr = new javax.swing.JTextField();
-        cmb_setorOcorr = new javax.swing.JComboBox<String>();
+        cmb_setorOcorr = new javax.swing.JComboBox<>();
+        cmb_status_ocor = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         EnviarOcorr = new javax.swing.JButton();
         EditarOcorr = new javax.swing.JButton();
         ApagarOcorr = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        txt_descOcorr = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,7 +196,7 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
 
         jLabel_cad_ocorr1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel_cad_ocorr1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel_cad_ocorr1.setText("Cadastro de Ocorrências");
+        jLabel_cad_ocorr1.setText("Cadastro de Ocorrência");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -88,7 +223,7 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         jLabel5.setText("Digite a data da ocorrência:");
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 170, 20));
 
-        txt_cadastro_OcorreDia2.setText("    Dia");
+        txt_cadastro_OcorreDia2.setToolTipText("Dia");
         txt_cadastro_OcorreDia2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_OcorreDia2ActionPerformed(evt);
@@ -96,7 +231,7 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         });
         jPanel4.add(txt_cadastro_OcorreDia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 50, 34));
 
-        txt_cadastro_OcorreMes2.setText("    Mês");
+        txt_cadastro_OcorreMes2.setToolTipText("Mês");
         txt_cadastro_OcorreMes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_OcorreMes2ActionPerformed(evt);
@@ -104,7 +239,7 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         });
         jPanel4.add(txt_cadastro_OcorreMes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 50, 34));
 
-        txt_cadastro_OcorreAno1.setText("    Ano");
+        txt_cadastro_OcorreAno1.setToolTipText("Ano");
         txt_cadastro_OcorreAno1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_cadastro_OcorreAno1ActionPerformed(evt);
@@ -122,8 +257,17 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         });
         jPanel4.add(txt_tituloOcorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 240, 34));
 
-        cmb_setorOcorr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel4.add(cmb_setorOcorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 160, 20));
+        cmb_setorOcorr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_setorOcorrActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cmb_setorOcorr, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 240, 20));
+
+        jPanel4.add(cmb_status_ocor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 240, -1));
+
+        jLabel2.setText("Status da Ocorrência");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 380, 400));
 
@@ -134,12 +278,17 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         jLabel3.setText("Descreva a ocorrência:");
 
         EnviarOcorr.setText("Enviar");
+        EnviarOcorr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnviarOcorrActionPerformed(evt);
+            }
+        });
 
         EditarOcorr.setText("Editar");
 
         ApagarOcorr.setText("Apagar");
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(txt_descOcorr);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -164,10 +313,11 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EnviarOcorr)
                     .addComponent(ApagarOcorr)
@@ -207,6 +357,17 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_tituloOcorrActionPerformed
 
+    private void cmb_setorOcorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_setorOcorrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_setorOcorrActionPerformed
+
+    private void EnviarOcorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarOcorrActionPerformed
+        // TODO add your handling code here:
+        if(checkCampos()==true){
+            cadastraOcor();
+        }
+    }//GEN-LAST:event_EnviarOcorrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,8 +384,10 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
     private javax.swing.JButton ApagarOcorr;
     private javax.swing.JButton EditarOcorr;
     private javax.swing.JButton EnviarOcorr;
-    private javax.swing.JComboBox<String> cmb_setorOcorr;
+    private javax.swing.JComboBox<Object> cmb_setorOcorr;
+    private javax.swing.JComboBox<Object> cmb_status_ocor;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -234,10 +397,10 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
     javax.swing.JTextField txt_cadastro_OcorreAno1;
     javax.swing.JTextField txt_cadastro_OcorreDia2;
     javax.swing.JTextField txt_cadastro_OcorreMes2;
+    private javax.swing.JTextPane txt_descOcorr;
     javax.swing.JTextField txt_tituloOcorr;
     // End of variables declaration//GEN-END:variables
 }
