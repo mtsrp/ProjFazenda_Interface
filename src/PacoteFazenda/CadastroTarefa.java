@@ -185,9 +185,8 @@ public class CadastroTarefa extends javax.swing.JFrame {
         jLabel_descreverTarefa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_desc_tarefa = new javax.swing.JTextPane();
-        btn_apagarTarefa = new javax.swing.JButton();
-        btn_editarTarefa = new javax.swing.JButton();
-        btn_SalvarTarefa = new javax.swing.JButton();
+        btn_cancela = new javax.swing.JButton();
+        btn_Cad_Tarefa = new javax.swing.JButton();
         cmb_status_tarefa = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
@@ -348,14 +347,17 @@ public class CadastroTarefa extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(txt_desc_tarefa);
 
-        btn_apagarTarefa.setText("Apagar");
-
-        btn_editarTarefa.setText("Editar");
-
-        btn_SalvarTarefa.setText("Salvar");
-        btn_SalvarTarefa.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancela.setText("Apagar");
+        btn_cancela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_SalvarTarefaActionPerformed(evt);
+                btn_cancelaActionPerformed(evt);
+            }
+        });
+
+        btn_Cad_Tarefa.setText("Cadastrar");
+        btn_Cad_Tarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Cad_TarefaActionPerformed(evt);
             }
         });
 
@@ -370,17 +372,8 @@ public class CadastroTarefa extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 68, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(btn_SalvarTarefa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_editarTarefa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_apagarTarefa)
-                                .addGap(21, 21, 21))))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cmb_status_tarefa, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -388,7 +381,12 @@ public class CadastroTarefa extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(btn_cancela)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Cad_Tarefa)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,9 +401,8 @@ public class CadastroTarefa extends javax.swing.JFrame {
                 .addComponent(cmb_status_tarefa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_apagarTarefa)
-                    .addComponent(btn_editarTarefa)
-                    .addComponent(btn_SalvarTarefa))
+                    .addComponent(btn_cancela)
+                    .addComponent(btn_Cad_Tarefa))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -464,13 +461,20 @@ public class CadastroTarefa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_cadastro_TarefaAnoActionPerformed
 
-    private void btn_SalvarTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SalvarTarefaActionPerformed
+    private void btn_Cad_TarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cad_TarefaActionPerformed
         // TODO add your handling code here:
         if(checkCampos()==true){
             cadastraTarefa();
             
         }
-    }//GEN-LAST:event_btn_SalvarTarefaActionPerformed
+    }//GEN-LAST:event_btn_Cad_TarefaActionPerformed
+
+    private void btn_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelaActionPerformed
+        // TODO add your handling code here:
+        TelaInicial ini = new TelaInicial();
+        ini.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_cancelaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -508,9 +512,8 @@ public class CadastroTarefa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_SalvarTarefa;
-    private javax.swing.JButton btn_apagarTarefa;
-    private javax.swing.JButton btn_editarTarefa;
+    private javax.swing.JButton btn_Cad_Tarefa;
+    private javax.swing.JButton btn_cancela;
     private javax.swing.JComboBox<Object> cmb_setorTarefa;
     private javax.swing.JComboBox<Object> cmb_status_tarefa;
     private javax.swing.JLabel jLabel1;

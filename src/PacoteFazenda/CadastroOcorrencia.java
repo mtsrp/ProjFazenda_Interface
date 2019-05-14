@@ -176,9 +176,8 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        EnviarOcorr = new javax.swing.JButton();
-        EditarOcorr = new javax.swing.JButton();
-        ApagarOcorr = new javax.swing.JButton();
+        btn_EnviarOcorr = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_descOcorr = new javax.swing.JTextPane();
 
@@ -277,16 +276,19 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel3.setText("Descreva a ocorrência:");
 
-        EnviarOcorr.setText("Enviar");
-        EnviarOcorr.addActionListener(new java.awt.event.ActionListener() {
+        btn_EnviarOcorr.setText("Cadastrar");
+        btn_EnviarOcorr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EnviarOcorrActionPerformed(evt);
+                btn_EnviarOcorrActionPerformed(evt);
             }
         });
 
-        EditarOcorr.setText("Editar");
-
-        ApagarOcorr.setText("Apagar");
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(txt_descOcorr);
 
@@ -299,15 +301,12 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 111, Short.MAX_VALUE)
-                        .addComponent(EnviarOcorr)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(EditarOcorr)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ApagarOcorr))
+                        .addComponent(btn_cancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_EnviarOcorr))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 164, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -319,9 +318,8 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EnviarOcorr)
-                    .addComponent(ApagarOcorr)
-                    .addComponent(EditarOcorr))
+                    .addComponent(btn_EnviarOcorr)
+                    .addComponent(btn_cancelar))
                 .addGap(29, 29, 29))
         );
 
@@ -361,12 +359,19 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb_setorOcorrActionPerformed
 
-    private void EnviarOcorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarOcorrActionPerformed
+    private void btn_EnviarOcorrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EnviarOcorrActionPerformed
         // TODO add your handling code here:
         if(checkCampos()==true){
             cadastraOcor();
         }
-    }//GEN-LAST:event_EnviarOcorrActionPerformed
+    }//GEN-LAST:event_btn_EnviarOcorrActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        // TODO add your handling code here:
+        TelaInicial ini = new TelaInicial();
+        ini.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,9 +386,8 @@ public class CadastroOcorrencia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ApagarOcorr;
-    private javax.swing.JButton EditarOcorr;
-    private javax.swing.JButton EnviarOcorr;
+    private javax.swing.JButton btn_EnviarOcorr;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JComboBox<Object> cmb_setorOcorr;
     private javax.swing.JComboBox<Object> cmb_status_ocor;
     private javax.swing.JLabel jLabel1;

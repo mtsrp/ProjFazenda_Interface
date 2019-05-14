@@ -117,17 +117,9 @@ public class TelaInicio2 extends javax.swing.JFrame {
     private void btn_logar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logar_usuarioActionPerformed
         // TODO add your handling code here:
         if(verificaLogin()==true){
-            switch (System.getProperty("Permissao_user")) {
-                case "1":
-                    //abre tela adiministrador
-                    JOptionPane.showMessageDialog(null, "Administrador");
-                    break;
-                default:
                     TelaInicial telafunc = new TelaInicial();
                     telafunc.setVisible(true);
                     dispose();
-                    break;
-            }
         }else JOptionPane.showMessageDialog(null, "Verifique seus dados", "Login e/ou Senha incorretos", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btn_logar_usuarioActionPerformed
 
